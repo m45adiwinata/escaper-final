@@ -64,7 +64,7 @@ class StockistCountryController extends AdminController
         $form->text('name', __('Name'));
         $form->hasMany('stockist', function (Form\NestedForm $form) {
             $form->text('name', 'Name');
-            $form->textarea('link', 'Link');
+            $form->ckeditor('link', 'Link');
         });
 
         return $form;
