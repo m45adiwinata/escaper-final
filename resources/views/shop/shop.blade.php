@@ -8,7 +8,7 @@
       <div class="container-lg">
          <div class="shop-wrapper">
             <div class="shop-top">
-                <p>{{$typeselected ? $typeselected : 'Shop'}}</p>
+                <p>{{$typeselected ? $typeselected->name : 'Shop'}}</p>
             </div>
             <div class="row">
                 @foreach($products as $product)
