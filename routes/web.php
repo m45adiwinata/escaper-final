@@ -57,3 +57,6 @@ Route::get('/construction', function () {
 });
 Route::get('/stockist', 'HomeController@stockist');
 Route::get('/shipping', 'HomeController@shipping');
+
+Route::get('/admin', 'AdminController@dashboard');
+Route::get('/admin/product/create', 'AdminController@createProduct');

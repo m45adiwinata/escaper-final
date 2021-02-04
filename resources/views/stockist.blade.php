@@ -9,23 +9,17 @@ Stockists
         <div class="container lg">
             <div class="stockist-content">
                 <div class="countries columns">
+                    @foreach($stockist_countries as $country)
                     <div class="country">
-                        <h3>Indonesia</h3>
+                        <h3>{{$country->name}}</h3>
                         <div class="stockists">
-                            <a href="">Skateshop</a>
-                            <a href="">Skateshop2</a>
-                            <a href="">Skateshop3</a>
-                            <a href="">Skateshop4</a>
-                            <a href="">Skateshop</a>
-                            <a href="">Skateshop</a>
-                            <a href="">Skateshop2</a>
-                            <a href="">Skateshop</a>
-                            <a href="">Skateshop2</a>
-                            <a href="">Skateshop</a>
-                            <a href="">Skateshop2</a>
+                            @foreach($country->stockist()->get() as $stockist)
+                            <a href="{{$stockist->link}}">{{$stockist->text}}</a>
+                            @endforeach
                         </div>
                     </div>
-                    <div class="country">
+                    @endforeach
+                    <!-- <div class="country">
                         <h3>Australia</h3>
                         <div class="stockists">
                             <a href="">Skateshop</a>
@@ -70,7 +64,7 @@ Stockists
                             <a href="">Skateshop3</a>
                             <a href="">Skateshop4</a>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>

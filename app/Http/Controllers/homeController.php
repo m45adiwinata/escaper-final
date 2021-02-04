@@ -8,6 +8,7 @@ use App\TextBerjalan;
 use App\Stockist;
 use App\Shipping;
 use App\ProductType;
+use App\StockistCountry;
 use DateTime;
 
 class homeController extends Controller
@@ -96,7 +97,8 @@ class homeController extends Controller
             }
             $data['textberjalan'] = $text;
         }
-        $data['stockist'] = Stockist::first();
+        $data['stockist_countries'] = StockistCountry::get();
+        // $data['stockist'] = Stockist::first();
         $data['producttypes'] = ProductType::get();
 
         return view('stockist', $data);
