@@ -482,10 +482,20 @@ Checkout
             $('#submitbtn').css('display', 'block');
         });
         $('#showlogin').click(function() {
-            $('.login').css('display', 'block');
+            if($('.login').css('display') == 'none') {
+                $('.login').css('display', 'block');
+            }
+            else {
+                $('.login').css('display', 'none');
+            }
         });
         $('#showcoupon').click(function() {
-            $('.coupon').css('display', 'block');
+            if($('.coupon').css('display') == 'none') {
+                $('.coupon').css('display', 'block');
+            }
+            else {
+                $('.coupon').css('display', 'none');
+            }
         });
         $('#checkCreateAcc').change(function() {
             if(this.checked) {
