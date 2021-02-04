@@ -37,8 +37,10 @@ class ProductController extends AdminController
         $grid->column('image', __('Image'))->carousel($width=300, $height = 200);
         $grid->column('name', __('Name'));
         $grid->column('desc', __('Desc'));
-        $grid->column('discount', __('Discount'));
-        $grid->column('discounttype', __('Discount Type'));
+        $grid->column('discountIDR', __('Discount IDR'));
+        $grid->column('discounttypeIDR', __('Discount Type IDR'));
+        $grid->column('discountUSD', __('Discount USD'));
+        $grid->column('discounttypeUSD', __('Discount Type USD'));
 
         return $grid;
     }
@@ -80,6 +82,7 @@ class ProductController extends AdminController
             ProductType::get()->pluck('name', 'id')
         );
         $temp = explode('/', $_SERVER['SCRIPT_URI']);
+        // $temp = explode('/', $_SERVER['REQUEST_URI']);
         if ($temp[count($temp) - 1] == "edit")
         {
             $id = intval($temp[count($temp) - 2]);
@@ -92,12 +95,18 @@ class ProductController extends AdminController
         $form->multipleImage('image', 'Image')->move('images/products/'.$id)->removable();
         $form->text('name', __('Name'));
         $form->ckeditor('desc', __('Desc'));
-        $form->number('discount', 'Discount');
+        $form->number('discountIDR', 'Discount IDR')->min(0);
         $states = [
-            'on'  => ['value' => 1, 'text' => 'Regular', 'color' => 'success'],
-            'off' => ['value' => 0, 'text' => 'Percentage', 'color' => 'info'],
+            'on'  => ['value' => 'regular', 'text' => 'Regular', 'color' => 'success'],
+            'off' => ['value' => 'percentage', 'text' => 'Percentage', 'color' => 'info'],
         ];
-        $form->switch('discounttype', 'Discount Type')->states($states);
+        $form->switch('discounttypeIDR', 'Discount Type IDR')->states($states);
+        $form->number('discountUSD', 'Discount USD')->min(0);
+        $states = [
+            'on'  => ['value' => 'regular', 'text' => 'Regular', 'color' => 'success'],
+            'off' => ['value' => 'percentage', 'text' => 'Percentage', 'color' => 'info'],
+        ];
+        $form->switch('discounttypeUSD', 'Discount Type USD')->states($states);
         $form->hasMany('availability', function (Form\NestedForm $form) {
             $form->select('size_init')->options(ProductSize::get()->pluck('name', 'initial'));
             $form->currency('IDR', 'IDR')->symbol('Rp');
