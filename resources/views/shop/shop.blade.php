@@ -28,7 +28,9 @@
                                 @if(count($product->image) > 1) 
                                 <img class="img-back" src="{{$product->image[1]}}" alt="items-img">
                                 @endif
+                                @if($product->totalstock == 0)
                                 <div id="outStock">Out of Stock</div>
+                                @endif
                                 @if($product->discount > 0)
                                 <div id="sale">Sale!</div>
                                 @endif
