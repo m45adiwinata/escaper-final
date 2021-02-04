@@ -1,6 +1,6 @@
 @extends('layouts.phone')
 @section('title')
- | Checkout
+Checkout
 @endsection
 @section('content')
 @include('components.headerphone2')

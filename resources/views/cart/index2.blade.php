@@ -1,6 +1,6 @@
 @extends('layouts.phone')
 @section('title')
- | Cart
+Cart
 @endsection
 @section('content')
 @include('components.headerphone2')
