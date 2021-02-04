@@ -91,7 +91,7 @@ class ProductController extends AdminController
         // dd($id);
         $form->multipleImage('image', 'Image')->move('images/products/'.$id)->removable();
         $form->text('name', __('Name'));
-        $form->textarea('desc', __('Desc'));
+        $form->ckeditor('desc', __('Desc'));
         $form->number('discount', 'Discount');
         $states = [
             'on'  => ['value' => 1, 'text' => 'Regular', 'color' => 'success'],

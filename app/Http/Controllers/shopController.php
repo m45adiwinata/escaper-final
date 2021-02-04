@@ -49,6 +49,12 @@ class shopController extends Controller
                 }
                 $data['textberjalan'] = $text;
             }
+            foreach($data['products'] as $product) {
+                $product->totalstock = 0;
+                foreach($product->availability()->get() as $avl) {
+                    $product->totalstock += $avl->stocks;
+                }
+            }
             $data['producttypes'] = ProductType::get();
 
             return view('shop/shop', $data);

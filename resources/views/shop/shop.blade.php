@@ -10,6 +10,14 @@
             <div class="shop-top">
                 <p>{{$typeselected ? $typeselected->name : 'Shop'}}</p>
             </div>
+            @if(count($products) == 0)
+            <div class="row">
+                <div class="cart-empty">
+                    <p>No products were found matching your selection.</p>
+                    <a class="btn btn-to-shop" href="/shop">Back to Shop</a>
+                </div>
+            </div>
+            @else
             <div class="row">
                 @foreach($products as $product)
                 <div class="col-6 col-md-3">
@@ -21,7 +29,9 @@
                                 <img class="img-back" src="{{$product->image[1]}}" alt="items-img">
                                 @endif
                                 <div id="outStock">Out of Stock</div>
+                                @if($product->discount > 0)
                                 <div id="sale">Sale!</div>
+                                @endif
                             </div>
                         </a>
                         <div class="item-info">
@@ -40,6 +50,7 @@
                 </div>
                 @endforeach
             </div>
+            @endif
             <div class="shop-top">
                 <p> </p>
             </div>

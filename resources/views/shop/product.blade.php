@@ -37,7 +37,7 @@
                         <div class="item-detail">
                             <p class="item-name" >{{$product->name}}</p>
                             <p class="item-price">{{$_COOKIE["currency"] == "IDR" ? "Rp".number_format($product->availability()->first()->IDR, 0, ',', '.') : "$ ".number_format($product->availability()->first()->USD, 2, ',', '.') }}</p>
-                            <p class="item-desc">{{$product->desc}}</p>
+                            <p class="item-desc">@php echo $product->desc; @endphp</p>
                         </div>
                         <div class="item-sizechart">
                             <img src="/images/phone/size-chart.jpeg" alt="size-cart">
