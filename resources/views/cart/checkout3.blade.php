@@ -206,10 +206,10 @@ Checkout
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="radTrfBank" id="radTrfBank" value="option1" checked>
                                         <label class="form-check-label" for="radTrfBank">
-                                                <b>Transfer BCA 6115373947 a/n I Made Bayu Dharma Wibawa</b>
+                                            <b>Bank Transfer BCA : 6115373947 (I Made Bayu Dharma Wibawa)</b>
                                         </label>
                                         <br>
-                                        Make your payment directly into our bank account. Please use your Order ID as the payment reference to info@escaper-store.com.Your order will not be shipped until the funds have cleared in our account.
+                                        Make your payment directly into our bank account. Please use your Purchase Code as the payment reference to info.escaper@gmail.com. Your order will not be shipped until the funds have cleared in our account.
                                     </div>
                                 </td>
                             </tr>
