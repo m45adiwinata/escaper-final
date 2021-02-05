@@ -22,7 +22,7 @@
     @foreach($carts as $cart)
         <tr>
             <td style=""><img src="{{$message->embed($cart['image'])}}" alt="{{$cart['name']}}" style="width:240px; height:240px;"></td>
-            <td>{{$cart['name']}}-{{$cart['size']}}</td>
+            <td>{{$cart['name']}} - {{$cart['size']}}</td>
             <td style="text-align:center;">{{$cart['qty']}}</td>
             <td style="text-align:center;">{{$currency == 'IDR' ? 'Rp' : '$'}} {{$cart['price']}}</td>
         </tr>
