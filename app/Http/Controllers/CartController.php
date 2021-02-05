@@ -175,7 +175,7 @@ class CartController extends Controller
         $carts = array();
         foreach (Cart::where('guest_code', $data->guest_code)->where('checkout', 0)->get() as $key => $d) {
             $cart = array('name' => $d->product()->first()->name, 'qty' => $d->amount, 'price' => 0, 'subtotal' => 0, 'image' => '');
-            $cart['image'] = env('APP_URL').'/'.$d->product()->first()->image[0];
+            $cart['image'] = 'http://escaper-store.com/'.$d->product()->first()->image[0];
             $avl = ProductAvailability::where('product_id', $d->product_id)->where('size_init', $d->sizeInitial()->first()->initial)->first();
             if ($d->currency == 'IDR') {
                 $total = $avl->IDR * $d->amount;
@@ -213,7 +213,7 @@ class CartController extends Controller
             'discount' => $data->discount,
             'shipping' => $data->shipping,
             'carts' => $carts,
-            'logo' => env('APP_URL').'/images/LOGO-PNG.png'
+            'logo' => 'http://escaper-store.com/images/LOGO-PNG.png'
         );
         Mail::send('emailku', $temp, function($message) use ($temp) {
             $message->to($temp['email']);
@@ -250,8 +250,8 @@ class CartController extends Controller
             'discount' => $data->discount,
             'shipping' => $data->shipping,
             'carts' => $carts,
-            'logo' => env('APP_URL').'/images/LOGO-PNG.png',
-            'image' => env('APP_URL').'/images/paypal%20icon.png'
+            'logo' => 'http://escaper-store.com/images/LOGO-PNG.png',
+            'image' => 'http://escaper-store.com/images/paypal%20icon.png'
         );
         Mail::send('emailtransfer', $temp, function($message) use ($temp) {
             $message->to('info.escaper@gmail.com');
@@ -266,7 +266,7 @@ class CartController extends Controller
             'guest_code' => $data->guest_code,
             'currency' => $data->currency,
             'grand_total' => $data->grand_total,
-            'image' => env('APP_URL').'/images/paypal%20icon.png',
+            'image' => 'http://escaper-store.com/images/paypal%20icon.png',
             'id' => $request->id
         );
         Mail::send('emailtransfer', $temp, function($message) use ($temp) {
@@ -336,8 +336,8 @@ class CartController extends Controller
             'discount' => $data->discount,
             'shipping' => $data->shipping,
             'carts' => $carts,
-            'logo' => env('APP_URL').'/images/LOGO-PNG.png',
-            'image' => env('APP_URL').'/'.$data->buktitrf
+            'logo' => 'http://escaper-store.com/images/LOGO-PNG.png',
+            'image' => 'http://escaper-store.com/'.$data->buktitrf
         );
         // Mail::send('emailtransfer', $temp, function($message) use ($temp) {
         //     $message->to('info.escaper@gmail.com');
