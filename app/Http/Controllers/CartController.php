@@ -193,7 +193,7 @@ class CartController extends Controller
         $data->sub_total = $sub_total;
         $data->grand_total = $grand_total;
         $data->save();
-        Cart::where('guest_code', $data->guest_code)->update(['checkout' => 1]);
+        
         $temp = array(
             'id' => $data->id,
             'email' => $data->email,
@@ -222,12 +222,7 @@ class CartController extends Controller
             $message->from('info@escaper-store.com');
             $message->subject('Purchase '.$temp['guest_code']);
         });
-        $carts = Cart::where('guest_code', $_COOKIE['guest_code'])->where('checkout', 0)->get();
-        foreach ($carts as $key => $cart) {
-            $cart->checkout = 1;
-            $cart->purchase_code = $data->guest_code.'/'.$data->id;
-            $cart->save();
-        }
+        Cart::where('guest_code', $data->guest_code)->where('checkout', 0)->update(['checkout' => 1, 'purchase_code' => $data->guest_code.'/'.$data->id]);
         
         // PEMBAYARAN VIA TRANSFER BANK
         if ($data->pembayaran == 1) {
@@ -235,7 +230,7 @@ class CartController extends Controller
         }
 
         $carts = array();
-        foreach (Cart::where('purchase_code', $data->guest_code.'/'.$data->$id)->get() as $key => $d) {
+        foreach (Cart::where('purchase_code', $data->guest_code.'/'.$data->id)->get() as $key => $d) {
             $cart = array('name' => $d->product()->first()->name, 'qty' => $d->amount, 'price' => 0, 'subtotal' => 0, 'image' => '');
             $cart['image'] = 'http://escaper-store.com/'.$d->product()->first()->image[0];
             $avl = ProductAvailability::where('product_id', $d->product_id)->where('size_init', $d->sizeInitial()->first()->initial)->first();
@@ -302,8 +297,9 @@ class CartController extends Controller
     }
 
     public function uploadPayment($id) {
-        $data['checkout'] = Checkout::find($id);
-        $textberjalan = TextBerjalan::where('currency', $_COOKIE['currency'])->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->orderBy('created_at')->get();
+        $checkout = Checkout::find($id);
+        $data['checkout'] = $checkout;
+        $textberjalan = TextBerjalan::where('currency', $checkout->currency)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->orderBy('created_at')->get();
         if(count($textberjalan) == 0) {
             $data['textberjalan'] = 'text here';
         }
