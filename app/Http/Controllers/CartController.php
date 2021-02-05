@@ -324,6 +324,7 @@ class CartController extends Controller
 			'file' => 'required'
         ]);
         $data = Checkout::find($request->id);
+        if($request->purchase_code != $data->guest_code.'/'.$data->id);
         $file = $request->file('file');
         $namafile = time().$file->getClientOriginalName();
         $data->buktitrf = 'images/userupload/'.$namafile;
@@ -338,7 +339,7 @@ class CartController extends Controller
             $temp_payment = 'PayPal';
         }
         $carts = array();
-        foreach (Cart::where('purchase_code', $request->purchase_code)->get() as $key => $d) {
+        foreach (Cart::where('purchase_code', $data->guest_code.'/'.$data->id)->get() as $key => $d) {
             $cart = array('name' => $d->product()->first()->name, 'qty' => $d->amount, 'price' => 0, 'subtotal' => 0, 'image' => '');
             $cart['image'] = 'http://escaper-store.com/'.$d->product()->first()->image[0];
             $avl = ProductAvailability::where('product_id', $d->product_id)->where('size_init', $d->sizeInitial()->first()->initial)->first();
@@ -425,7 +426,7 @@ class CartController extends Controller
         ]);
         if(md5($request->password) == md5('escaper2017')) {
             $data = Checkout::find($request->id);
-            foreach(Cart::where('guest_code', $data->guest_code)->get() as $cart) {
+            foreach(Cart::where('purchase_code', $data->guest_code.'/'.$data->id)->get() as $cart) {
                 $product = $cart->product()->first();
                 $avl = $product->availability()->where('size_init', ProductSize::find($cart->product_size_id)->initial)->first();
                 $avl->stocks -= $cart->amount;
