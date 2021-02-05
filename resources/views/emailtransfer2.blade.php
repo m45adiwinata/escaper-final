@@ -14,8 +14,8 @@
     <thead>
         <tr>
             <th colspan="2">Product</th>
-            <th style="padding:10px;">Quantity</th>
-            <th style="padding:10px;">Price</th>
+            <th style="padding-left:10px;">Quantity</th>
+            <th style="padding-left:40px;">Price</th>
         </tr>
     </thead>
     <tbody>
@@ -49,7 +49,7 @@
                 @if($discount > 0)
                 {{$currency == 'IDR' ? 'Rp '.number_format($discount, 2, ',', '.').'<br>' : '$ '.number_format($discount, 2, ',', '.').'<br>'}}
                 @endif
-                {{$currency == 'IDR' ? 'Rp '.number_format($shipping, 2, ',', '.') : '$ '.number_format($shipping, 2, ',', '.')}}<br>
+                {{$currency == 'IDR' ? 'FREE SHIPPING' : '$ '.number_format($shipping, 2, ',', '.')}}<br>
                 {{$currency == 'IDR' ? 'Rp ' : '$ '}}{{ number_format($grand_total, 2, ',', '.') }}<br>
             </td>
         </tr>
