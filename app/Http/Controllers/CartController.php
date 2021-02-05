@@ -225,30 +225,31 @@ class CartController extends Controller
         $carts = Cart::where('guest_code', $_COOKIE['guest_code'])->where('checkout', 0)->get();
         foreach ($carts as $key => $cart) {
             $cart->checkout = 1;
+            $cart->purchase_code = $data->guest_code.'/'.$data->id;
             $cart->save();
         }
         
-        //RESET GUEST_CODE COOKIES
-        $id = md5($_SERVER["REMOTE_ADDR"]);
-        $id = substr($id, 8, 5);
-        do {
-            $random = rand(1, 1000);
-            if ($random < 10) {
-                $random = "000{$random}";
-            }
-            else if ($random < 100) {
-                $random = "00{$random}";
-            }
-            else if ($random < 1000) {
-                $random = "0{$random}";
-            }
-            $new_guest_code = "{$id}-{$random}";
-        } while (count(Cart::where('guest_code', $new_guest_code)->get()) > 0);
-        setcookie("guest_code", $new_guest_code, time() + 86400);
-
         // PEMBAYARAN VIA TRANSFER BANK
         if ($data->pembayaran == 1) {
             return redirect('/cart/upload-payment/'.$data->id);
+        }
+
+        $carts = array();
+        foreach (Cart::where('guest_code', $data->guest_code)->where('checkout', 0)->get() as $key => $d) {
+            $cart = array('name' => $d->product()->first()->name, 'qty' => $d->amount, 'price' => 0, 'subtotal' => 0, 'image' => '');
+            $cart['image'] = 'http://escaper-store.com/'.$d->product()->first()->image[0];
+            $avl = ProductAvailability::where('product_id', $d->product_id)->where('size_init', $d->sizeInitial()->first()->initial)->first();
+            if ($d->currency == 'IDR') {
+                $total = $avl->IDR * $d->amount;
+                $cart['price'] = $avl->IDR;
+                $cart['subtotal'] = $total;
+            }
+            else {
+                $total = $avl->USD * $d->amount;
+                $cart['price'] = $avl->USD;
+                $cart['subtotal'] = $total;
+            }
+            array_push($carts, $cart);
         }
         // PEMBAYARAN VIA PAYPAL
         $temp = array(
@@ -296,7 +297,8 @@ class CartController extends Controller
         //     $message->from('info@escaper-store.com');
         //     $message->subject('Purchase '.$temp['guest_code']);
         // });
-        // return redirect('/home');
+        
+        return redirect('/home');
     }
 
     public function uploadPayment($id) {
@@ -340,7 +342,7 @@ class CartController extends Controller
             $temp_payment = 'PayPal';
         }
         $carts = array();
-        foreach (Cart::where('guest_code', $data->guest_code)->where('checkout', 0)->get() as $key => $d) {
+        foreach (Cart::where('purchase_code', $request->purchase_code)->get() as $key => $d) {
             $cart = array('name' => $d->product()->first()->name, 'qty' => $d->amount, 'price' => 0, 'subtotal' => 0, 'image' => '');
             $cart['image'] = 'http://escaper-store.com/'.$d->product()->first()->image[0];
             $avl = ProductAvailability::where('product_id', $d->product_id)->where('size_init', $d->sizeInitial()->first()->initial)->first();

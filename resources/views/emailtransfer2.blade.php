@@ -1,6 +1,6 @@
 <img src="{{$message->embed($logo)}}" alt="ESCAPER'S LOGO" style="width:887px; height:133px; display:block; margin-left:auto; margin-right:auto;">
 <h2 style="text-align:center;">An order has been received.</h2>
-<h4 style="text-align:center;">Purchase Code : {{ $guest_code }}</h4>
+<h4 style="text-align:center;">Purchase Code : {{ $guest_code }}/{{$id}}</h4>
 <br>
 <h4>Customer Info</h4>
 <hr>
