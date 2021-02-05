@@ -58,7 +58,7 @@
 <br>
 <br>
 <br>
-<a class="btn" href="http://escaper-store.com/upload-payment/{{$id}}">Payment Confirmation</a></button>
+<a class="btn" href="http://escaper-store.com/cart/upload-payment/{{$id}}">Payment Confirmation</a>
 <br>
 <br>
 <br>

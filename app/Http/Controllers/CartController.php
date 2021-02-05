@@ -232,6 +232,7 @@ class CartController extends Controller
         }
         // PEMBAYARAN VIA PAYPAL
         $temp = array(
+            'id' => $data->id,
             'email' => $data->email,
             'first_name' => $data->first_name,
             'last_name' => $data->last_name,
@@ -254,28 +255,28 @@ class CartController extends Controller
             'logo' => 'http://escaper-store.com/images/LOGO-PNG.png',
             'image' => 'http://escaper-store.com/images/paypal%20icon.png'
         );
-        Mail::send('emailtransfer', $temp, function($message) use ($temp) {
+        Mail::send('emailtransfer2', $temp, function($message) use ($temp) {
             $message->to('info.escaper@gmail.com');
             $message->from('info@escaper-store.com');
             $message->subject('Purchase '.$temp['guest_code']);
         });
 
-        $temp = array(
-            'email' => $data->email,
-            'first_name' => $data->first_name,
-            'last_name' => $data->last_name,
-            'guest_code' => $data->guest_code,
-            'currency' => $data->currency,
-            'grand_total' => $data->grand_total,
-            'image' => 'http://escaper-store.com/images/paypal%20icon.png',
-            'id' => $request->id
-        );
-        Mail::send('emailtransfer', $temp, function($message) use ($temp) {
-            $message->to('info.escaper@gmail.com');
-            $message->from('info@escaper-store.com');
-            $message->subject('Purchase '.$temp['guest_code']);
-        });
-        return redirect('/home');
+        // $temp = array(
+        //     'email' => $data->email,
+        //     'first_name' => $data->first_name,
+        //     'last_name' => $data->last_name,
+        //     'guest_code' => $data->guest_code,
+        //     'currency' => $data->currency,
+        //     'grand_total' => $data->grand_total,
+        //     'image' => 'http://escaper-store.com/images/paypal%20icon.png',
+        //     'id' => $request->id
+        // );
+        // Mail::send('emailtransfer2', $temp, function($message) use ($temp) {
+        //     $message->to('info.escaper@gmail.com');
+        //     $message->from('info@escaper-store.com');
+        //     $message->subject('Purchase '.$temp['guest_code']);
+        // });
+        // return redirect('/home');
     }
 
     public function uploadPayment($id) {
@@ -336,6 +337,7 @@ class CartController extends Controller
             array_push($carts, $cart);
         }
         $temp = array(
+            'id' => $data->id,
             'email' => $data->email,
             'first_name' => $data->first_name,
             'last_name' => $data->last_name,
