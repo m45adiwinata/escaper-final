@@ -194,6 +194,7 @@ class CartController extends Controller
         $data->save();
         Cart::where('guest_code', $data->guest_code)->update(['checkout' => 1]);
         $temp = array(
+            'id' => $data->id,
             'email' => $data->email,
             'first_name' => $data->first_name,
             'last_name' => $data->last_name,
@@ -341,11 +342,11 @@ class CartController extends Controller
             'logo' => 'http://escaper-store.com/images/LOGO-PNG.png',
             'image' => 'http://escaper-store.com/'.$data->buktitrf
         );
-        // Mail::send('emailtransfer', $temp, function($message) use ($temp) {
-        //     $message->to('info.escaper@gmail.com');
-        //     $message->from('info@escaper-store.com');
-        //     $message->subject('Purchase '.$temp['guest_code']);
-        // });
+        Mail::send('emailtransfer', $temp, function($message) use ($temp) {
+            $message->to('info.escaper@gmail.com');
+            $message->from('info@escaper-store.com');
+            $message->subject('Purchase '.$temp['guest_code']);
+        });
         
         // $temp = array(
         //     'email' => $data->email,

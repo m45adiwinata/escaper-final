@@ -55,5 +55,7 @@
         </tr>
     </tbody>
 </table>
-<p>Thanks for your <a href="https://escaper-store.com/">Escaper Store</a> purchase. Consider to subscribe and stay tune with our project.</p>
-<p>Best Regard, Escaper</p>
+<a class="btn" href="http://escaper-store.com/upload-payment/{{$id}}">Payment Confirmation</button>
+<p>Thanks for purchasing our product. Consider to  subscribe and stay tune with our project.</p>
+<p>Best Regard</p>
+<p><a href="http://escaper-store.com">ESCAPER®</a></p>
