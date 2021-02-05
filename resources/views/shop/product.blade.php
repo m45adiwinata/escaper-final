@@ -40,7 +40,7 @@
                             <p class="item-desc">@php echo $product->desc; @endphp</p>
                         </div>
                         <div class="item-sizechart">
-                            <img src="/images/phone/size-chart.jpeg" alt="size-cart">
+                            <img src="/images/phone/size-chart.jpg" alt="size-cart">
                         </div>
                         <div class="item-order">
                             <div class="item-form">
