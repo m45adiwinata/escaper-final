@@ -299,6 +299,7 @@ class CartController extends Controller
     {
         $this->validate($request, [
             'id' => 'required',
+            'purchase_code' => 'required',
             'namabank' =>'required',
 			'file' => 'required'
         ]);
@@ -316,6 +317,7 @@ class CartController extends Controller
         else {
             $temp_payment = 'PayPal';
         }
+        $carts = Cart::where('guest_code', $request->purchase_code)->get();
         $temp = array(
             'email' => $data->email,
             'first_name' => $data->first_name,
