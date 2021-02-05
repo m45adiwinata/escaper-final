@@ -235,7 +235,7 @@ class CartController extends Controller
         }
 
         $carts = array();
-        foreach (Cart::where('guest_code', $data->guest_code)->where('checkout', 0)->get() as $key => $d) {
+        foreach (Cart::where('purchase_code', $data->guest_code.'/'.$data->$id)->get() as $key => $d) {
             $cart = array('name' => $d->product()->first()->name, 'qty' => $d->amount, 'price' => 0, 'subtotal' => 0, 'image' => '');
             $cart['image'] = 'http://escaper-store.com/'.$d->product()->first()->image[0];
             $avl = ProductAvailability::where('product_id', $d->product_id)->where('size_init', $d->sizeInitial()->first()->initial)->first();
