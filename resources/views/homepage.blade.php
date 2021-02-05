@@ -5,7 +5,7 @@ Home
 @section('content')
 @include('components.headerphone')
 <section>
-    <div class="homepage" style="background-image: url(/images/phone/back.jpg);">
+    <div class="homepage" style="background-image: url(/images/phone/background.jpg);">
         <a href="/shop">Shop Now</a>
     </div>
 </section>
