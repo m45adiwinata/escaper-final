@@ -12,6 +12,7 @@ use App\Subscriber;
 use App\TextBerjalan;
 use App\TempCart;
 use App\ProductType;
+use App\ProductSize;
 
 class CartController extends Controller
 {
@@ -226,6 +227,25 @@ class CartController extends Controller
             $cart->checkout = 1;
             $cart->save();
         }
+        
+        //RESET GUEST_CODE COOKIES
+        $id = md5($_SERVER["REMOTE_ADDR"]);
+        $id = substr($id, 8, 5);
+        do {
+            $random = rand(1, 1000);
+            if ($random < 10) {
+                $random = "000{$random}";
+            }
+            else if ($random < 100) {
+                $random = "00{$random}";
+            }
+            else if ($random < 1000) {
+                $random = "0{$random}";
+            }
+            $new_guest_code = "{$id}-{$random}";
+        } while (count(Cart::where('guest_code', $new_guest_code)->get()) > 0);
+        setcookie("guest_code", $new_guest_code, time() + 86400);
+
         // PEMBAYARAN VIA TRANSFER BANK
         if ($data->pembayaran == 1) {
             return redirect('/cart/upload-payment/'.$data->id);

@@ -14,8 +14,8 @@
     <thead>
         <tr>
             <th colspan="2">Product</th>
-            <th style="padding-left:10px;">Quantity</th>
-            <th style="padding-left:40px;">Price</th>
+            <th style="padding-left:30px;">Quantity</th>
+            <th style="padding-left:100px;">Price</th>
         </tr>
     </thead>
     <tbody>
