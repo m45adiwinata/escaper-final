@@ -24,7 +24,7 @@
             <td style=""><img src="{{$message->embed($cart['image'])}}" alt="{{$cart['name']}}" style="width:240px; height:240px;"></td>
             <td>{{$cart['name']}} - {{$cart['size']}}</td>
             <td style="text-align:center;">{{$cart['qty']}}</td>
-            <td style="text-align:center;">{{$currency == 'IDR' ? 'Rp' : '$'}} {{$cart['price']}}</td>
+            <td style="text-align:center;">{{$currency == 'IDR' ? 'Rp '.number_format($cart['price'],0,',','.') : '$ '.number_format($cart['price'],2,'.',',')}}</td>
         </tr>
     @endforeach
         <tr>
@@ -45,7 +45,7 @@
             </td>
             <td>
                 {{ $payment }}<br>
-                {{$currency == 'IDR' ? 'Rp ' : '$ '}}{{number_format($sub_total, 2, ',', '.')}}<br>
+                {{$currency == 'IDR' ? 'Rp '.number_format($sub_total, 2, ',', '.') : '$ '.number_format($sub_total, 2, '.', ',')}}<br>
                 @if($discount > 0)
                 {{$currency == 'IDR' ? 'Rp '.number_format($discount, 2, ',', '.').'<br>' : '$ '.number_format($discount, 2, '.', ',').'<br>'}}
                 @endif
