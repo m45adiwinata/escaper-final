@@ -150,7 +150,7 @@ Checkout
                                 <td class="text-right">
                                     <b>
                                         @php $subtotal+= $cart->total; @endphp
-                                                {{($_COOKIE['currency'] == 'IDR') ? 'Rp '.number_format($cart->total, 0, ',', '.') : '$ '.number_format($cart->total, 2, ',', '.')}}
+                                                {{($_COOKIE['currency'] == 'IDR') ? 'Rp '.number_format($cart->total, 0, ',', '.') : '$ '.number_format($cart->total, 2, '.', ',')}}
                                     </b>
                                 </td>
                             </tr>
@@ -159,7 +159,7 @@ Checkout
                                 <td class="text-left"><b>Subtotal</b></td>
                                 <td class="text-right">
                                     <b>
-                                        {{($_COOKIE['currency'] == 'IDR') ? 'Rp '.number_format($subtotal, 0, ',', '.') : '$ '.number_format($subtotal, 2, ',', '.')}}
+                                        {{($_COOKIE['currency'] == 'IDR') ? 'Rp '.number_format($subtotal, 0, ',', '.') : '$ '.number_format($subtotal, 2, '.', ',')}}
                                     </b>
                                 </td>
                             </tr>
@@ -182,7 +182,7 @@ Checkout
                                         }
                                         else if ($_COOKIE['currency'] == 'USD') {
                                             $shipping = 10;
-                                            echo('$ '.number_format($shipping, 2, ',', '.'));
+                                            echo('$ '.number_format($shipping, 2, '.', ','));
                                         }
                                         else {
                                             $shipping = 0;
@@ -197,7 +197,7 @@ Checkout
                                 <td class="text-right">
                                     <b id="grandtotal-val">
                                         @php $grandtotal = $subtotal + $shipping; @endphp
-                                        {{($_COOKIE['currency'] == 'IDR') ? 'Rp '.number_format($grandtotal, 0, ',', '.') : '$ '.number_format($grandtotal, 2, ',', '.')}}
+                                        {{($_COOKIE['currency'] == 'IDR') ? 'Rp '.number_format($grandtotal, 0, ',', '.') : '$ '.number_format($grandtotal, 2, '.', ',')}}
                                     </b>
                                 </td>
                             </tr>
@@ -298,6 +298,22 @@ Checkout
             rupiah += separator + ribuan.join('.');
         }
         rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+        // return prefix == undefined ? rupiah : (rupiah ? 'Rp ' + rupiah : '');
+        return prefix + ' ' + rupiah
+    }
+
+    function formatDolar(angka, prefix){
+        var number_string = angka.toString(),
+        split   		= number_string.split(','),
+        sisa     		= split[0].length % 3,
+        rupiah     		= split[0].substr(0, sisa),
+        ribuan     		= split[0].substr(sisa).match(/\d{3}/gi);
+        // tambahkan titik jika yang di input sudah menjadi angka ribuan
+        if(ribuan){
+            separator = sisa ? ',' : '';
+            rupiah += separator + ribuan.join('.');
+        }
+        rupiah = split[1] != undefined ? rupiah + '.' + split[1] : rupiah;
         // return prefix == undefined ? rupiah : (rupiah ? 'Rp ' + rupiah : '');
         return prefix + ' ' + rupiah
     }
@@ -502,6 +518,7 @@ Checkout
                 if($('#inputEmail').val()) {
                     $('#create-password').css('display', 'block');
                     $.get('/cart/check-discount/'+$('#inputEmail').val(), function(count) {
+                        console.log(count);
                         if(count == 0) {
                             // $.ajax({
                             //     type: "POST",
@@ -520,14 +537,17 @@ Checkout
                                 currency = getCookie('currency');
                                 if(currency == 'IDR') {
                                     prefix = 'Rp';
+                                    discount_str = formatRupiah(discount, prefix);
+                                    grandtotal -= discount;
+                                    grandtotal_str = formatRupiah(grandtotal, prefix);
                                 }
                                 else {
                                     prefix = '$';
+                                    discount_str = formatRupiah(discount, prefix);
+                                    grandtotal -= discount;
+                                    grandtotal_str = formatRupiah(grandtotal, prefix);
                                 }
-                                discount_str = formatRupiah(discount, prefix);
                                 $('#discount-val').html(discount_str);
-                                grandtotal -= discount;
-                                grandtotal_str = formatRupiah(grandtotal, prefix);
                                 $('#grandtotal-val').html(grandtotal_str);
                                 $('#h-grandtotal').val(grandtotal);
                             });
@@ -544,7 +564,7 @@ Checkout
                     '_token' : $('meta[name=csrf-token]').attr('content'),
                     discount: 0
                 })
-                .success(function() {
+                .done(function() {
                     $('#create-password').css('display', 'none');
                     currency = getCookie('currency');
                     if(currency == 'IDR') {

@@ -447,11 +447,13 @@ class CartController extends Controller
         $avl = ProductAvailability::where('product_id', $data->product_id)->where('size_init', $data->sizeInitial()->first()->initial)->first();
         if ($_COOKIE['currency'] == 'IDR') {
             $total = $avl->IDR * $data->amount;
+            $total = number_format($total, 2, ',', '.');
         }
         else {
             $total = $avl->USD * $data->amount;
+            $total = number_format($total, 2, '.', ',');
         }
-        $total = number_format($total, 2, ',', '.');
+        
         return $total;
     }
 
@@ -483,7 +485,7 @@ class CartController extends Controller
             $grand_total = 'Rp '.number_format($grand_total, 0, ',', '.');
         }
         else {
-            $grand_total = '$ '.number_format($grand_total, 2, ',', '.');
+            $grand_total = '$ '.number_format($grand_total, 2, '.', ',');
         }
         return $grand_total;
     }

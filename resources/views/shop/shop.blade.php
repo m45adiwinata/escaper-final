@@ -42,7 +42,7 @@
                             @if($_COOKIE["currency"] == "IDR")
                             <p class="item-price">Rp{{number_format($product->availability()->first()->IDR, 0, ',', '.')}}</p>
                             @else
-                            <p class="item-price">${{number_format($product->availability()->first()->USD, 2, ',', '.')}}</p>
+                            <p class="item-price">${{number_format($product->availability()->first()->USD, 2, '.', ',')}}</p>
                             @endif
                         </div>
                         <div class="item-options">

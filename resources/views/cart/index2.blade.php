@@ -43,7 +43,7 @@ Cart
                                         @if ($_COOKIE['currency'] == 'IDR')
                                         {{number_format($cart->avl->IDR, 0, ',', '.')}}
                                         @else
-                                        {{number_format($cart->avl->USD, 2, ',', '.')}}
+                                        {{number_format($cart->avl->USD, 2, '.', ',')}}
                                         @endif
                                     </td>
                                     <td style="width:25%;">
@@ -56,7 +56,7 @@ Cart
                                         <span id="total-{{$cart->id}}">{{number_format($total, 0, ',', '.')}}</span>
                                         @else
                                         @php $total = $cart->avl->USD * $cart->amount; $subtotal += $total; @endphp
-                                        <span id="total-{{$cart->id}}">{{number_format($total, 2, ',', '.')}}</span>
+                                        <span id="total-{{$cart->id}}">{{number_format($total, 2, '.', ',')}}</span>
                                         @endif
                                     </td>
                                 </tr>
@@ -80,7 +80,7 @@ Cart
                                             @if($_COOKIE['currency'] == 'IDR')
                                             {{number_format($subtotal,0,',','.')}}
                                             @else
-                                            {{number_format($subtotal,2,',','.')}}
+                                            {{number_format($subtotal,2,'.',',')}}
                                             @endif
                                         </b>
                                     </td>
@@ -94,7 +94,7 @@ Cart
                                             @if($_COOKIE['currency'] == 'IDR')
                                             {{number_format($grandtotal,0,',','.')}}
                                             @else
-                                            {{number_format($grandtotal,2,',','.')}}
+                                            {{number_format($grandtotal,2,'.',',')}}
                                             @endif
                                         </b>
                                     </td>
