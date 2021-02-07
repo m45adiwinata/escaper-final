@@ -76,7 +76,7 @@ class contactController extends Controller
         Mail::send('emailcontact', $temp, function($message) use ($temp) {
             $message->to('info@escaper-store.com');
             $message->from('info@escaper-store.com');
-            $message->subject('Purchase '.$temp['guest_code']);
+            $message->subject('Contact from '.$temp['name']);
         });
         
         return redirect('/home');
