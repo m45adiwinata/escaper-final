@@ -23,4 +23,6 @@ Route::group([
     $router->resource('stockists', StockistController::class);
     $router->resource('stockist-country', StockistCountryController::class);
     $router->resource('shippings', ShippingController::class);
+    $router->resource('size-types', SizeTypeController::class);
+    $router->resource('homepages', HomepageController::class);
 });

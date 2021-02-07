@@ -37,6 +37,11 @@ class Product extends Model
         return $this->hasMany('App\ProductId', 'last_id');
     }
 
+    public function sizeType()
+    {
+        return $this->belongsTo('App\SizeType', 'size_type_id');
+    }
+
     public static function boot()
     {
         parent::boot();

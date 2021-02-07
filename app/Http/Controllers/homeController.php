@@ -9,6 +9,7 @@ use App\Stockist;
 use App\Shipping;
 use App\ProductType;
 use App\StockistCountry;
+use App\Homepage;
 use DateTime;
 
 class homeController extends Controller
@@ -51,6 +52,7 @@ class homeController extends Controller
             $data['textberjalan'] = $text;
         }
         $data['producttypes'] = ProductType::get();
+        $data['background'] = Homepage::where('status', 1)->orderBy('created_at', 'desc')->first()->background;
         
         return view('homepage', $data);
     }

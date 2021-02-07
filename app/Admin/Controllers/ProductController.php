@@ -6,6 +6,7 @@ use App\Product;
 use App\ProductType;
 use App\ProductSize;
 use App\ProductId;
+use App\SizeType;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -81,8 +82,8 @@ class ProductController extends AdminController
         $form->select('product_type_id')->options(
             ProductType::get()->pluck('name', 'id')
         );
-        $temp = explode('/', $_SERVER['SCRIPT_URI']);
-        // $temp = explode('/', $_SERVER['REQUEST_URI']);
+        // $temp = explode('/', $_SERVER['SCRIPT_URI']);
+        $temp = explode('/', $_SERVER['REQUEST_URI']);
         if ($temp[count($temp) - 1] == "edit")
         {
             $id = intval($temp[count($temp) - 2]);
@@ -95,6 +96,9 @@ class ProductController extends AdminController
         $form->multipleImage('image', 'Image')->move('images/products/'.$id)->removable();
         $form->text('name', __('Name'));
         $form->ckeditor('desc', __('Desc'));
+        $form->select('size_type_id', 'Size Type')->options(
+            SizeType::get()->pluck('name', 'id')
+        );
         $form->number('discountIDR', 'Discount IDR')->min(0);
         $states = [
             'on'  => ['value' => 'regular', 'text' => 'Regular', 'color' => 'success'],

@@ -67,6 +67,17 @@ class contactController extends Controller
         $data->phone = $request->phone;
         $data->comment = $request->comment;
         $data->save();
+        $temp = array(
+            'name' => $data->name,
+            'email' => $data->email,
+            'phone' => $data->phone,
+            'comment' => $data->comment
+        );
+        Mail::send('emailcontact', $temp, function($message) use ($temp) {
+            $message->to('info@escaper-store.com');
+            $message->from('info@escaper-store.com');
+            $message->subject('Purchase '.$temp['guest_code']);
+        });
         
         return redirect('/home');
     }
