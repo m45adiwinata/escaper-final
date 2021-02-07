@@ -20,7 +20,7 @@ Contact
                             @csrf
                             <input type="text" name="name" id="name" class="contact-name" placeholder="NAME*" autocomplete="off" required>
                             <input type="email" name="email" id="email" class="contact-email" placeholder="EMAIL*" autocomplete="off" required>
-                            <input type="text" name="phone" id="phone" pattern="[0-9]" class="contact-phone" autocomplete="off" placeholder="PHONE">
+                            <input type="text" name="phone" id="phone" class="contact-phone" autocomplete="off" placeholder="PHONE">
                             <textarea name="comment" rows="15" name="comment" id="comment" placeholder="COMMENT"></textarea>
                             <span style="font-size:10px;">*Required</span>
                             <button type="submit" id="submit" class="btn-contact" style="background:grey; border:grey;" disabled>SUBMIT</button>
