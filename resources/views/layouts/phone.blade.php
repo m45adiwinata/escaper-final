@@ -20,6 +20,15 @@
             font-family: escaperfont;
         }
     </style>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-30D3EE0RS0"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-30D3EE0RS0');
+    </script>
     </head>
     <body>
         @yield('content')
