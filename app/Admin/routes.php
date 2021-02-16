@@ -25,4 +25,5 @@ Route::group([
     $router->resource('shippings', ShippingController::class);
     $router->resource('size-types', SizeTypeController::class);
     $router->resource('homepages', HomepageController::class);
+    $router->resource('lookbook-texts', LookbookTextController::class);
 });

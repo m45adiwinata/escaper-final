@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Lookbook;
+use App\LookbookText;
 use App\TextBerjalan;
 use App\ProductType;
 
@@ -24,6 +25,7 @@ class lookbookController extends Controller
             return redirect('/');
         }
         $data['lookbook'] = Lookbook::get();
+        $data['lookbook_text'] = LookbookText::first()->text;
         $textberjalan = TextBerjalan::where('currency', $_COOKIE['currency'])->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->orderBy('created_at')->get();
         if(count($textberjalan) == 0) {
             $data['textberjalan'] = 'text here';

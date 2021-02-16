@@ -8,7 +8,7 @@
       <div class="container-lg">
          <div class="shop-wrapper">
             <div class="shop-top">
-                <p>{{$typeselected ? $typeselected->name : 'Shop'}}</p>
+                <p>{{$typeselected ? strtoupper($typeselected->name) : 'SHOP'}}</p>
             </div>
             @if(count($products) == 0)
             <div class="row">

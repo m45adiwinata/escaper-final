@@ -1,6 +1,6 @@
 @extends('layouts.phone')
 @section('title')
- | Lookbook
+Lookbook
 @endsection
 @section('content')
 @include('components.headerphone2')
@@ -17,7 +17,7 @@
         <div class="swiper-pagination"></div>
       </div>
       <div class="lookbook-name">
-        <p>Escaper - Lookbook Collection 2021</p>
+        @php echo $lookbook_text; @endphp
       </div>
     </div>
   </div>
