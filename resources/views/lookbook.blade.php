@@ -16,7 +16,11 @@ Lookbook
         </div>
         <div class="swiper-pagination"></div>
       </div>
+      
       <div class="lookbook-name">
+        @foreach($lookbook as $l)
+          {{$l->image}}
+        @endforeach
         @php echo $lookbook_text; @endphp
       </div>
     </div>

@@ -104,6 +104,9 @@ class CartController extends Controller
     public function placeOrder(Request $request)
     {
         $tc = TempCart::where('guest_code', $_COOKIE['guest_code'])->first();
+        if ($tc->grandtotal == 0) {
+            return redirect('/cart');
+        }
         $data = new Checkout;
         $data->guest_code = $_COOKIE['guest_code'];
         $data->currency = $_COOKIE['currency'];
@@ -176,7 +179,7 @@ class CartController extends Controller
         $carts = array();
         foreach (Cart::where('guest_code', $data->guest_code)->where('checkout', 0)->get() as $key => $d) {
             $cart = array('name' => $d->product()->first()->name, 'qty' => $d->amount, 'price' => 0, 'subtotal' => 0, 'image' => '', 'size' => $d->sizeInitial()->first()->initial);
-            $cart['image'] = 'http://escaper-store.com/'.$d->product()->first()->image[0];
+            $cart['image'] = 'localhost:8000/'.$d->product()->first()->image[0];
             $avl = ProductAvailability::where('product_id', $d->product_id)->where('size_init', $d->sizeInitial()->first()->initial)->first();
             if ($d->currency == 'IDR') {
                 $total = $avl->IDR * $d->amount;
@@ -193,6 +196,7 @@ class CartController extends Controller
         $data->sub_total = $sub_total;
         $data->grand_total = $grand_total;
         $data->save();
+        $this->resetTempCart($tc->guest_code);
         
         $temp = array(
             'id' => $data->id,
@@ -215,13 +219,13 @@ class CartController extends Controller
             'discount' => $data->discount,
             'shipping' => $data->shipping,
             'carts' => $carts,
-            'logo' => 'http://escaper-store.com/images/LOGO-PNG.png'
+            'logo' => 'localhost:8000/images/LOGO-PNG.png'
         );
-        Mail::send('emailku', $temp, function($message) use ($temp) {
-            $message->to($temp['email']);
-            $message->from('info@escaper-store.com');
-            $message->subject('Purchase '.$temp['guest_code']);
-        });
+        // Mail::send('emailku', $temp, function($message) use ($temp) {
+        //     $message->to($temp['email']);
+        //     $message->from('info@escaper-store.com');
+        //     $message->subject('Purchase '.$temp['guest_code']);
+        // });
         Cart::where('guest_code', $data->guest_code)->where('checkout', 0)->update(['checkout' => 1, 'purchase_code' => $data->guest_code.'/'.$data->id]);
         
         // PEMBAYARAN VIA TRANSFER BANK
@@ -232,7 +236,7 @@ class CartController extends Controller
         $carts = array();
         foreach (Cart::where('purchase_code', $data->guest_code.'/'.$data->id)->get() as $key => $d) {
             $cart = array('name' => $d->product()->first()->name, 'qty' => $d->amount, 'price' => 0, 'subtotal' => 0, 'image' => '', 'size' => $d->sizeInitial()->first()->initial);
-            $cart['image'] = 'http://escaper-store.com/'.$d->product()->first()->image[0];
+            $cart['image'] = 'localhost:8000/'.$d->product()->first()->image[0];
             $avl = ProductAvailability::where('product_id', $d->product_id)->where('size_init', $d->sizeInitial()->first()->initial)->first();
             if ($d->currency == 'IDR') {
                 $total = $avl->IDR * $d->amount;
@@ -271,11 +275,11 @@ class CartController extends Controller
             'logo' => 'http://escaper-store.com/images/LOGO-PNG.png',
             'image' => 'http://escaper-store.com/images/paypal%20icon.png'
         );
-        Mail::send('emailtransfer2', $temp, function($message) use ($temp) {
-            $message->to('info.escaper@gmail.com');
-            $message->from('info@escaper-store.com');
-            $message->subject('Purchase '.$temp['guest_code']);
-        });
+        // Mail::send('emailtransfer2', $temp, function($message) use ($temp) {
+        //     $message->to('info.escaper@gmail.com');
+        //     $message->from('info@escaper-store.com');
+        //     $message->subject('Purchase '.$temp['guest_code']);
+        // });
 
         // $temp = array(
         //     'email' => $data->email,
@@ -294,6 +298,17 @@ class CartController extends Controller
         // });
         
         return redirect('/home');
+    }
+
+    private function resetTempCart($guest_code)
+    {
+        $tc = TempCart::where('guest_code', $guest_code)->first();
+        $tc->subtotal = 0;
+        $tc->discount  = 0;
+        $tc->shipping  = 0;
+        $tc->grandtotal  = 0;
+        $tc->save();
+        return 0;
     }
 
     public function uploadPayment($id) {
